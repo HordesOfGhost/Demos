@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DEMO</title>
+    <link rel="stylesheet" href="/static/style/styles.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>
+            <center>
+                DEMO
+            </center>
+        </h1>
+
+        <h2>
+            <center>
+                Upload 360 degree Image
+            </center>
+        </h2>
+        
+        <form method="post" enctype="multipart/form-data" action = "/upload/">
+            <label for="image">Select Image</label>
+            <input type="file" id="image" name="image" accept="image/*">
+            <input type="submit" value="Upload">
+        </form>
+    </div>
+</body>
+</html>
