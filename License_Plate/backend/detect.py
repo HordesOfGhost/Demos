@@ -9,7 +9,7 @@ import torch
 import traceback
 import matplotlib.pyplot as plt
 
-class BlurFacesLicense:
+class BlurFaces:
     '''
 
     Class  : BlurFacesLicense
@@ -31,8 +31,9 @@ class BlurFacesLicense:
         self.vehicles_detected_v8 = 0
         self.vehicles_detected_v7 = 0
         # self.plot_image(self.image)
-    
-    def blur_license_plates(self,vehicle_detected_region):
+        self.detected_vehicles_roi =  []
+        self.license_blur_on_detected_vehicles_roi = []
+    def blur_license(self,vehicle_detected_region):
         '''
 
             Blurs License Plate from Vehicle Detected Regions
@@ -71,7 +72,7 @@ class BlurFacesLicense:
             traceback.print_exc(limit=1)
             return image
     
-    def blur_license_plates_and_faces(self):
+    def blur_license_plates(self):
         '''
         
             Calls both the function blur_faces and blur_license_plates.
@@ -79,7 +80,7 @@ class BlurFacesLicense:
             Detects Vehicle first and returns ROI of detected vehicles for license plate detection
             Returns the drawn image
         '''
-        self.blur_faces()
+        
     
         # Predicts on a image
         predict_image_v7 = self.yolo_model_v7(self.image)
@@ -114,17 +115,20 @@ class BlurFacesLicense:
                     x1,y1,x2,y2 = int(box[0]),int(box[1]),int(box[2]),int(box[3])
 
                     roi =  self.image[y1 : y2, x1 : x2]
+                    self.detected_vehicles_roi.append((self.image[y1 : y2, x1 : x2]))
                     
                     # self.plot_image(roi) 
-                    self.image[y1 : y2, x1 : x2] = self.blur_license_plates(roi)
-
-                # self.plot_image(self.image)
+                    
+                    self.image[y1 : y2, x1 : x2] = self.blur_license(roi)
+                    self.license_blur_on_detected_vehicles_roi.append((self.image[y1 : y2, x1 : x2]))
+               
             except Exception as e:
                 print(e)
                 traceback.print_exc(limit=1)
-                # self.plot_image(self.image)
+        
         else:
-            print("No Predictions")
-            # self.plot_image(self.image)
-        return self.image,self.total_vehicles_detected,self.vehicles_detected_v7,self.vehicles_detected_v8,self.license_plates_detected,self.faces_detected
+            return self.image,None,None,total_information
+        total_information = f"Total Vehicles Detected : { self.total_vehicles_detected} \n Total License Plates Detected : {self.license_plates_detected}"
+        return self.image,self.detected_vehicles_roi,self.license_blur_on_detected_vehicles_roi,total_information
+        
              

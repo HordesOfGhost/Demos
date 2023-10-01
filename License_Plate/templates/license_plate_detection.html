@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License Plate Detection</title>
+    <link rel="stylesheet" href="/static/style/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+</head>
+<body>
+    <div class="form-container">
+        <h1>
+            <center>
+                {{ information }}
+            </center>
+        </h1>
+
+        <h2>
+            <center>
+                Upload 360 degree Image
+            </center>
+        </h2>
+        
+        <h1>Photos</h1>
+        <div id="slider">
+            <div>
+                <img src="/{{ image_file }}" alt="{{ image_file }}">
+            </div>
+            {% for vehicle_roi_file in vehicles_roi_files %}
+            <div>
+                <img src="/{{ vehicle_roi_file }}" alt="{{ vehicle_roi_file }}">
+            </div>
+            {% endfor %}
+        </div>
+        
+        <button class="prev-button">Previous</button>
+        <button class="next-button">Next</button>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#slider').slick({
+                slidesToShow: 1,
+                slidesToScroll: 1,
+                arrows: false,
+                fade: true,
+                asNavFor: '.slider-nav'
+            });
+
+            $('.slider-nav').slick({
+                slidesToShow: 3,
+                slidesToScroll: 1,
+                asNavFor: '#slider',
+                dots: false,
+                focusOnSelect: true
+            });
+
+            $('.prev-button').click(function(){
+                $('#slider').slick('slickPrev');
+            });
+
+            $('.next-button').click(function(){
+                $('#slider').slick('slickNext');
+            });
+        });
+    </script>
+</body>
+</html>
