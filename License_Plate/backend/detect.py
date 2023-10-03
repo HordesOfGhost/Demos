@@ -8,11 +8,11 @@ import torch
 
 import traceback
 import matplotlib.pyplot as plt
-
-class BlurFaces:
+import numpy as np
+class BlurLicense:
     '''
 
-    Class  : BlurFacesLicense
+    Class  : BlurLicense
     Inputs : image, yolo_model, license_detection_model
             image                   : the image to be blurred
             yolo_model              : model to detect vehicle
@@ -22,6 +22,7 @@ class BlurFaces:
     
     def __init__(self, image, yolo_model_v7, yolo_model_v8, license_detection_model):
         self.image = image
+        self.copy_image = np.copy(image)
         self.yolo_model_v7 = yolo_model_v7
         self.yolo_model_v8 = yolo_model_v8
         self.license_detection_model = license_detection_model
@@ -60,6 +61,7 @@ class BlurFaces:
                 x1,y1,x2,y2 = int(box[0]),int(box[1]),int(box[2]),int(box[3])
 
                 roi = image[y1:y2,x1:x2]
+                
                 # Apply Gaussian blur to the ROI
                 blurred_roi = cv2.GaussianBlur(roi, (29, 29),11,11,cv2.BORDER_DEFAULT )  # Adjust the kernel size as needed
 
@@ -111,11 +113,14 @@ class BlurFaces:
 
                 boxes = combined_boxes
                 self.total_vehicles_detected = len(boxes)
+                
                 for box in boxes:
                     x1,y1,x2,y2 = int(box[0]),int(box[1]),int(box[2]),int(box[3])
 
                     roi =  self.image[y1 : y2, x1 : x2]
-                    self.detected_vehicles_roi.append((self.image[y1 : y2, x1 : x2]))
+                    roi_copy =  self.copy_image[y1 : y2, x1 : x2]
+
+                    self.detected_vehicles_roi.append(roi_copy)
                     
                     # self.plot_image(roi) 
                     
@@ -127,8 +132,9 @@ class BlurFaces:
                 traceback.print_exc(limit=1)
         
         else:
-            return self.image,None,None,total_information
-        total_information = f"Total Vehicles Detected : { self.total_vehicles_detected} \n Total License Plates Detected : {self.license_plates_detected}"
-        return self.image,self.detected_vehicles_roi,self.license_blur_on_detected_vehicles_roi,total_information
+            return self.image,None,None,"no detections","no detection"
+        vehicle_information = f"Total Vehicles ROI Detected : { self.total_vehicles_detected}"
+        blur_information = f" Total License Plates Detected : {self.license_plates_detected}"
+        return self.image,self.detected_vehicles_roi,self.license_blur_on_detected_vehicles_roi,vehicle_information,blur_information
         
              

@@ -8,63 +8,80 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
 </head>
 <body>
-    <div class="form-container">
-        <h1>
-            <center>
-                {{ information }}
-            </center>
-        </h1>
-
-        <h2>
-            <center>
-                Upload 360 degree Image
-            </center>
-        </h2>
-        
-        <h1>Photos</h1>
-        <div id="slider">
-            <div>
-                <img src="/{{ image_file }}" alt="{{ image_file }}">
-            </div>
-            {% for vehicle_roi_file in vehicles_roi_files %}
-            <div>
-                <img src="/{{ vehicle_roi_file }}" alt="{{ vehicle_roi_file }}">
-            </div>
-            {% endfor %}
+    <div class="whole">
+        <div class = "information">
+            <h1>
+                <center>
+                    DEMO
+                </center>
+            </h1>
+            <h2>
+                <center>
+                    {{ vehicle_information }}
+                    <br>
+                    {{ blur_information }}
+                </center>
+            </h2>
         </div>
         
-        <button class="prev-button">Previous</button>
-        <button class="next-button">Next</button>
+        <div class="original_image">
+            <center>
+                <h1>
+                    Original Image
+                </h1>
+                <img src = "/static/images/uploaded.jpg" width = "720px" height= "480px" onclick="openPopup(this)">
+            </center>
+        </div>
+
+        <div class="image-container">
+
+            <div class="photos-set" id="vehiclesSet">
+                <h2> Original ROIs</h2>
+                {% for vehicle_roi_file in vehicles_roi_files %}
+                    <img src="/{{ vehicle_roi_file }}" alt="{{ vehicle_roi_file }}" onclick="openPopup(this)">
+                    <br>
+                {% endfor %}
+            </div>
+
+            <div class="photos-set" id="blurredSet">
+                <h2> Blurred ROIs</h2>
+                {% for blurred_license_plate_vehicles_roi_file in blurred_license_plate_vehicles_roi_files %}
+                    <img src="/{{ blurred_license_plate_vehicles_roi_file }}" alt="{{ blurred_license_plate_vehicles_roi_file }}" onclick="openPopup(this)">
+                    <br>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div class="blurred_image">
+            <center>
+                <h1>
+                    Blurred Image
+                </h1>
+                <img src = "/static/images/blurred.jpg" width = "720px" height= "480px" onclick="openPopup(this)">
+            </center>
+        </div>
+
+        <div class="popup-container" id="popupContainer" onclick="closePopup()">
+            <img src="" class="popup-image" alt="Pop-up Image" id="popupImage">
+        </div>
+        
     </div>
 
+    <script>
+        function openPopup(image) {
+            var popup = document.getElementById("popupContainer");
+            var popupImage = document.getElementById("popupImage");
+            popupImage.src = image.src;
+            popup.style.display = "flex";
+        }
+
+        function closePopup() {
+            var popup = document.getElementById("popupContainer");
+            popup.style.display = "none";
+        }
+    </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $('#slider').slick({
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: false,
-                fade: true,
-                asNavFor: '.slider-nav'
-            });
-
-            $('.slider-nav').slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '#slider',
-                dots: false,
-                focusOnSelect: true
-            });
-
-            $('.prev-button').click(function(){
-                $('#slider').slick('slickPrev');
-            });
-
-            $('.next-button').click(function(){
-                $('#slider').slick('slickNext');
-            });
-        });
-    </script>
 </body>
 </html>

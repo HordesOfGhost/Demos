@@ -40,7 +40,7 @@ def upload_image():
             image_data = image.read()
             image_numpy = image_to_numpy(image_data)
             cv2.imwrite(image_path,image_numpy)
-            final_blurred_image, vehicle_detected , vehicle_blurred_license, information = BlurFaces(image = image_numpy, yolo_model_v7 = yolo_model_v7, yolo_model_v8 = yolo_model_v8, license_detection_model = license_detection_model).blur_license_plates()
+            final_blurred_image, vehicle_detected , vehicle_blurred_license, vehicle_information, blur_information = BlurLicense(image = image_numpy, yolo_model_v7 = yolo_model_v7, yolo_model_v8 = yolo_model_v8, license_detection_model = license_detection_model).blur_license_plates()
             
             cv2.imwrite('static/images/blurred.jpg',final_blurred_image)
             
@@ -55,11 +55,13 @@ def upload_image():
                 vehicles_roi_files = save_images('static/images/vehicles_roi',vehicle_detected)
                 blurred_license_plate_vehicles_roi_files = save_images('static/images/blurred_license_plate_vehicles_roi',vehicle_blurred_license)
 
-                return render_template('license_plate_detection.html',information = information, vehicles_roi_files = vehicles_roi_files , blurred_license_plate_vehicles_roi_files = blurred_license_plate_vehicles_roi_files)
+                return render_template('license_plate_detection.html',vehicle_information = vehicle_information, blur_information = blur_information, vehicles_roi_files = vehicles_roi_files , blurred_license_plate_vehicles_roi_files = blurred_license_plate_vehicles_roi_files)
             else:
+                information = "License Plate Not Detected"
                 return render_template('license_plate_not_detection.html',information = information)
-
-    return render_template('license_plate_detection.html',information = information)
+            
+    information = "No Detections"
+    return render_template('license_plate_not_detection.html',information = information)
 
 
 # On exit delete all images

@@ -1,1 +1,55 @@
-ok
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>License Plate Detection</title>
+    <link rel="stylesheet" href="/static/style/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.css">
+</head>
+<body>
+    <div class="whole">
+        <div class="original_image">
+            <center>
+                <h1>
+                    <center>
+                        DEMO
+                    </center>
+                </h1>
+               
+                <h2>
+                    Original Image
+                </h2>
+                <img src = "/static/images/uploaded.jpg" width = "720px" height= "480px" onclick="openPopup(this)">
+            </center>
+        </div>
+        <div class = "information">
+            <h2>
+                <center>
+                    {{information}}
+                </center>
+            </h2>
+        </div>
+        
+        <div class="popup-container" id="popupContainer" onclick="closePopup()">
+            <img src="" class="popup-image" alt="Pop-up Image" id="popupImage">
+        </div>
+    
+        </div>
+        
+        <script>
+            function openPopup(image) {
+                var popup = document.getElementById("popupContainer");
+                var popupImage = document.getElementById("popupImage");
+                popupImage.src = image.src;
+                popup.style.display = "flex";
+            }
+    
+            function closePopup() {
+                var popup = document.getElementById("popupContainer");
+                popup.style.display = "none";
+            }
+        </script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>        
+</body>

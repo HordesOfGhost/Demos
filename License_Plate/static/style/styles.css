@@ -5,8 +5,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    margin: 40px;
 }
 
 .form-container {
@@ -16,6 +15,24 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 100%;
+}
+
+.image-container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+    width: 100%;
+    max-height: 400px; 
+    overflow-y: scroll;
+    display: flex;
+}
+
+.image-container h1 {
+    text-align: center;
+    color: #343a40;
+    margin-bottom: 20px; /* Add margin to give space between heading and images */
 }
 
 h1 {
@@ -58,3 +75,48 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #17a2b8;
 }
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-image {
+    max-width: 100%;
+    max-height: 100%;
+    border: 2px solid #fff; /* Optional border for image */
+}
+
+.heading-container {
+    text-align: center;
+    margin-bottom: 20px; /* Add margin to give space between heading and images */
+}
+
+.photos-set {
+    display: inline-block;
+    vertical-align: top;
+    width: 45%; /* Adjust the width as needed */
+    margin: 10px;
+    padding: 10px;
+}
+
+.photos-set h2 {
+    text-align: center;
+}
+
+.whole{
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+}
+
+
+
+
